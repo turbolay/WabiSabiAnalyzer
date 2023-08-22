@@ -45,6 +45,7 @@ foreach (var txid in txids)
 
 	var result = new Result(
 		txid: txid,
+		confirmedIn: tx.status.block_height,
 		inputCount: tx.vin.Count,
 		outputCount: tx.vout.Count,
 		changeCount: changeCount,

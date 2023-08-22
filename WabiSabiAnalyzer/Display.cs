@@ -12,6 +12,7 @@ public static class Display
 	    else
 	    {
 		    Console.WriteLine($"Txid: {results.First().Txid}");
+		    Console.WriteLine($"Confirmed in: {results.First().ConfirmedIn}");
 	    }
 	    Console.WriteLine($"Number of inputs:\t{results.Median(r => r.InputCount):0.##}");
 	    Console.WriteLine($"Number of outputs:\t{results.Median(r => r.OutputCount):0.##}");

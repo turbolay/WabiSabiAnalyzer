@@ -3,6 +3,7 @@ namespace WabiSabiAnalyzer;
 public class Result
 {
     public string Txid { get; }
+    public int ConfirmedIn { get; }
     public int InputCount { get; }
     public int OutputCount { get; }
     public int ChangeCount { get; }
@@ -19,6 +20,7 @@ public class Result
 
     public Result(
         string txid,
+        int confirmedIn,
         int inputCount,
         int outputCount,
         int changeCount,
@@ -35,6 +37,7 @@ public class Result
     )
     {
         Txid = txid;
+        ConfirmedIn = confirmedIn;
         InputCount = inputCount;
         OutputCount = outputCount;
         ChangeCount = changeCount;
