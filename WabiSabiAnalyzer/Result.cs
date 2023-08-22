@@ -8,6 +8,8 @@ public class Result
     public int OutputCount { get; }
     public int ChangeCount { get; }
     public decimal ChangeRatio { get; }
+    public ulong TotalChange { get; }
+    public decimal RatioChangeValue { get; }
     public ulong InputAmount { get; }
     public ulong TotalFee { get; }
     public int Size { get; }
@@ -26,6 +28,8 @@ public class Result
         int changeCount,
         decimal changeRatio,
         ulong inputAmount,
+        ulong totalChange,
+        decimal ratioChangeValue,
         ulong totalFee,
         int size,
         decimal calculatedFeeRate,
@@ -43,6 +47,8 @@ public class Result
         ChangeCount = changeCount;
         ChangeRatio = changeRatio;
         InputAmount = inputAmount;
+        TotalChange = totalChange;
+        RatioChangeValue = ratioChangeValue;
         TotalFee = totalFee;
         Size = size;
         CalculatedFeeRate = calculatedFeeRate;

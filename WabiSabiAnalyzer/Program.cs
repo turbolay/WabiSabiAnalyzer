@@ -41,22 +41,26 @@ foreach (var txid in txids)
 	
 	var inputGroupedByValue = tx.vin.Select(x => x.prevout.value).GetIndistinguishable().ToList();
 	var outputsGroupedByValue = tx.vout.Select(x => x.value).GetIndistinguishable().ToList();
-	var changeCount = outputsGroupedByValue.Count(x => x.count == 1);
-
+	var inputAmount = tx.vin.Select(x => x.prevout.value).Sum();
+	var changes = outputsGroupedByValue.Where(x => x.count == 1).ToList();
+	var totalChange = changes.Select(x => x.value).Sum();
+	
 	var result = new Result(
 		txid: txid,
 		confirmedIn: tx.status.block_height,
 		inputCount: tx.vin.Count,
 		outputCount: tx.vout.Count,
-		changeCount: changeCount,
-		changeRatio: (decimal)changeCount / tx.vout.Count,
-		inputAmount: tx.vin.Select(x => (ulong)x.prevout.value).Sum(),
+		changeCount: changes.Count,
+		changeRatio: (decimal)changes.Count / tx.vout.Count,
+		inputAmount: tx.vin.Select(x => x.prevout.value).Sum(),
+		totalChange: totalChange,
+		ratioChangeValue: (decimal)totalChange / inputAmount,
 		totalFee: (ulong)tx.fee,
 		size: (int)(tx.weight / 4.0m),
 		calculatedFeeRate: tx.fee / (tx.weight / 4.0m),
 		averageInputAnonset: (decimal)tx.vin.Count / inputGroupedByValue.Count,
 		averageOutputAnonset: (decimal)tx.vout.Count / outputsGroupedByValue.Count,
-		averageOutputAnonsetExcludingChange: (decimal)(tx.vout.Count - changeCount) / (outputsGroupedByValue.Count - changeCount),
+		averageOutputAnonsetExcludingChange: (decimal)(tx.vout.Count - changes.Count) / (outputsGroupedByValue.Count - changes.Count),
 		taprootCount: tx.vout.Count(x => x.scriptpubkey_type == "v1_p2tr"),
 		bech32Count: tx.vout.Count(x => x.scriptpubkey_type == "v0_p2wpkh")
 	);

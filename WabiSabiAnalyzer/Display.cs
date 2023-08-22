@@ -19,6 +19,8 @@ public static class Display
 	    Console.WriteLine($"Number of changes:\t{results.Average(r => r.ChangeCount):0.##}");
 	    Console.WriteLine($"Frequency of changes:\t{results.Average(r => r.ChangeRatio)*100:0.##} %");
 	    Console.WriteLine($"Total in:\t\t{(decimal)(results.Median(r => (double)r.InputAmount) ?? 0) / 100000000m} BTC");
+	    Console.WriteLine($"Total changes:\t\t{(decimal)(results.Median(r => r.TotalChange) ?? 0) / 100000000m} BTC");
+	    Console.WriteLine($"Ratio change values:\t{results.Average(r => r.RatioChangeValue)*100:0.##} %");
 	    Console.WriteLine($"Total fee:\t\t{(decimal)(results.Median(r => (double)r.TotalFee) ?? 0) / 100000000m} BTC");
 	    Console.WriteLine($"Size:\t\t\t{results.Median(r => r.Size):0.##} vbyte");
 	    Console.WriteLine($"Fee rate:\t\t{results.Median(r => r.CalculatedFeeRate):0.##} sats/vbyte");
