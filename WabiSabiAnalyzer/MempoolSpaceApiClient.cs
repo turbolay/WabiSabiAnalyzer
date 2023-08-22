@@ -1,6 +1,6 @@
 using System.Net;
 
-namespace Sake;
+namespace WabiSabiAnalyzer;
 
 public class MempoolSpaceApiClient
 {

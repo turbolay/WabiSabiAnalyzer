@@ -1,17 +1,22 @@
-namespace Sake;
+namespace WabiSabiAnalyzer;
 
 public static class Display
 {
-	public static void DisplayResults(List<SimulationResult> results)
+	public static void DisplayResults(List<Result> results)
 	{
 	    Console.WriteLine();
 	    if (results.Count > 1)
 	    {
-		    Console.WriteLine($"Average results from {results.Count} iterations");
+		    Console.WriteLine($"Average results from {results.Count} rounds");
+	    }
+	    else
+	    {
+		    Console.WriteLine($"Txid: {results.First().Txid}");
 	    }
 	    Console.WriteLine($"Number of inputs:\t{results.Median(r => r.InputCount):0.##}");
 	    Console.WriteLine($"Number of outputs:\t{results.Median(r => r.OutputCount):0.##}");
 	    Console.WriteLine($"Number of changes:\t{results.Average(r => r.ChangeCount):0.##}");
+	    Console.WriteLine($"Frequency of changes:\t{results.Average(r => r.ChangeRatio):0.##}");
 	    Console.WriteLine($"Total in:\t\t{(decimal)(results.Median(r => (double)r.InputAmount) ?? 0) / 100000000m} BTC");
 	    Console.WriteLine($"Total fee:\t\t{(decimal)(results.Median(r => (double)r.TotalFee) ?? 0) / 100000000m} BTC");
 	    Console.WriteLine($"Size:\t\t\t{results.Median(r => r.Size):0.##} vbyte");

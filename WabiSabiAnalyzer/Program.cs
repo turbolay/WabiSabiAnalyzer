@@ -33,18 +33,19 @@ foreach (var txid in txids)
 	var changeCount = outputsGroupedByValue.Count(x => x.count == 1);
 
 	var result = new Result(
+		txid: txid,
 		inputCount: tx.vin.Count,
 		outputCount: tx.vout.Count,
-		changeCount,
-		(decimal)changeCount / tx.vout.Count,
+		changeCount: changeCount,
+		changeRatio: (decimal)changeCount / tx.vout.Count,
 		inputAmount: tx.vin.Select(x => (ulong)x.prevout.value).Sum(),
-		(ulong)tx.fee,
-		(int)(tx.weight / 4.0m),
-		tx.fee / (tx.weight / 4.0m),
-		(decimal)tx.vin.Count / inputGroupedByValue.Count,
-		(decimal)tx.vout.Count / outputsGroupedByValue.Count,
-		tx.vout.Count(x => x.scriptpubkey_type == "v1_p2tr"),
-		tx.vout.Count(x => x.scriptpubkey_type == "v0_p2wpkh")
+		totalFee: (ulong)tx.fee,
+		size: (int)(tx.weight / 4.0m),
+		calculatedFeeRate: tx.fee / (tx.weight / 4.0m),
+		averageInputAnonset: (decimal)tx.vin.Count / inputGroupedByValue.Count,
+		averageOutputAnonset: (decimal)tx.vout.Count / outputsGroupedByValue.Count,
+		taprootCount: tx.vout.Count(x => x.scriptpubkey_type == "v1_p2tr"),
+		bech32Count: tx.vout.Count(x => x.scriptpubkey_type == "v0_p2wpkh")
 	);
 
 	Console.WriteLine();

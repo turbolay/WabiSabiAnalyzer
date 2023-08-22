@@ -1,10 +1,12 @@
 namespace WabiSabiAnalyzer;
 
-public class SimulationResult
+public class Result
 {
+    public string Txid { get; }
     public int InputCount { get; }
     public int OutputCount { get; }
     public int ChangeCount { get; }
+    public decimal ChangeRatio { get; }
     public ulong InputAmount { get; }
     public ulong TotalFee { get; }
     public int Size { get; }
@@ -14,10 +16,12 @@ public class SimulationResult
     public int TaprootCount { get; }
     public int Bech32Count { get; }
 
-    public SimulationResult(
+    public Result(
+        string txid,
         int inputCount,
         int outputCount,
         int changeCount,
+        decimal changeRatio,
         ulong inputAmount,
         ulong totalFee,
         int size,
@@ -28,9 +32,11 @@ public class SimulationResult
         int bech32Count
     )
     {
+        Txid = txid;
         InputCount = inputCount;
         OutputCount = outputCount;
         ChangeCount = changeCount;
+        ChangeRatio = changeRatio;
         InputAmount = inputAmount;
         TotalFee = totalFee;
         Size = size;

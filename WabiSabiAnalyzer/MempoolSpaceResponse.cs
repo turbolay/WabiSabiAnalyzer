@@ -1,6 +1,4 @@
-using System.Collections.Generic;
-
-namespace Sake;
+namespace WabiSabiAnalyzer;
 
 public class MempoolSpaceResponse
 {

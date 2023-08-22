@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace Sake;
+namespace WabiSabiAnalyzer;
 
 public static class HttpContentExtensions
 {
