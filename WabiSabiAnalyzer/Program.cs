@@ -38,7 +38,12 @@ foreach (var txid in txids)
 		}
 		db.Add(txid, tx);
 	}
-	
+
+	if (tx.vin.Count < 130)
+	{
+		Console.WriteLine($"{txid} is not a WabiSabi round");
+		continue;
+	}
 	var inputGroupedByValue = tx.vin.Select(x => x.prevout.value).GetIndistinguishable().ToList();
 	var outputsGroupedByValue = tx.vout.Select(x => x.value).GetIndistinguishable().ToList();
 	var inputAmount = tx.vin.Select(x => x.prevout.value).Sum();
