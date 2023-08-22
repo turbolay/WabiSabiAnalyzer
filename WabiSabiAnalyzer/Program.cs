@@ -1,6 +1,15 @@
-﻿using WabiSabiAnalyzer;
+﻿using Newtonsoft.Json;
+using WabiSabiAnalyzer;
 
-string txidsPath = Directory.GetCurrentDirectory() + "/txids.txt";
+var txidsPath = Directory.GetCurrentDirectory() + "/txids.txt";
+var dbPath = Directory.GetCurrentDirectory() + "/db.json";
+
+Dictionary<string, MempoolSpaceResponse> db = new();
+if (File.Exists(dbPath))
+{
+	db = JsonConvert.DeserializeObject<Dictionary<string, MempoolSpaceResponse>>(File.ReadAllText(dbPath)) ??
+	         new Dictionary<string, MempoolSpaceResponse>();
+}
 
 var results = new List<Result>();
 var mempoolSpaceApiClient = new MempoolSpaceApiClient("Main");
@@ -8,26 +17,28 @@ var txids = new List<string>(File.ReadAllLines(txidsPath));
 
 foreach (var txid in txids)
 {
-	MempoolSpaceResponse? tx = null;
-	for (var i = 0; i < 3; i++)
+	if (!db.TryGetValue(txid, out var tx))
 	{
-		try
+		for (var i = 0; i < 3; i++)
 		{
-			tx = await mempoolSpaceApiClient.GetTransactionInfosAsync(txid, CancellationToken.None);
-			break;
+			try
+			{
+				tx = await mempoolSpaceApiClient.GetTransactionInfosAsync(txid, CancellationToken.None);
+				break;
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"ERROR: {ex}");
+			}
 		}
-		catch (Exception ex)
+		if (tx is null)
 		{
-			Console.WriteLine($"ERROR: {ex}");
+			Console.WriteLine($"{txid} couldn't be found by mempool.space nor in db");
+			continue;
 		}
+		db.Add(txid, tx);
 	}
-
-	if (tx is null)
-	{
-		Console.WriteLine($"{txid} couldn't be found by mempool.space");
-		continue;
-	}
-
+	
 	var inputGroupedByValue = tx.vin.Select(x => x.prevout.value).GetIndistinguishable().ToList();
 	var outputsGroupedByValue = tx.vout.Select(x => x.value).GetIndistinguishable().ToList();
 	var changeCount = outputsGroupedByValue.Count(x => x.count == 1);
@@ -53,5 +64,8 @@ foreach (var txid in txids)
 	
 	results.Add(result);
 }
+
+var json = JsonConvert.SerializeObject(db, Formatting.Indented);
+File.WriteAllText(dbPath, json);
 
 Display.DisplayResults(results);
