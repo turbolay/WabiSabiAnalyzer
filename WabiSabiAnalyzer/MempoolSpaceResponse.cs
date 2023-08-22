@@ -18,7 +18,7 @@ public class MempoolSpaceResponse
 		public string scriptpubkey_asm { get; set; }
 		public string scriptpubkey_type { get; set; }
 		public string scriptpubkey_address { get; set; }
-		public int value { get; set; }
+		public ulong value { get; set; }
 	}
 
 	public record Status
@@ -47,6 +47,6 @@ public class MempoolSpaceResponse
 		public string scriptpubkey_asm { get; set; }
 		public string scriptpubkey_type { get; set; }
 		public string scriptpubkey_address { get; set; }
-		public int value { get; set; }
+		public ulong value { get; set; }
 	}
 }
