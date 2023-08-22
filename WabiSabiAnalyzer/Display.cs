@@ -23,6 +23,7 @@ public static class Display
 	    Console.WriteLine($"Fee rate:\t\t{results.Median(r => r.CalculatedFeeRate):0.##} sats/vbyte");
 	    Console.WriteLine($"Input anonset:\t\t{results.Median(r => r.AverageInputAnonset):0.##}");
 	    Console.WriteLine($"Output anonset:\t\t{results.Median(r => r.AverageOutputAnonset):0.##}");
+	    Console.WriteLine($"Output AS w/o change:\t{results.Median(r => r.AverageOutputAnonsetExcludingChange):0.##}");
 	    Console.WriteLine($"Taproot/bech32 ratio:\t{results.Median(r => r.TaprootCount):0.##}/{results.Median(r => r.Bech32Count):0.##}");
 	}
 

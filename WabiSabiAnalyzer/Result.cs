@@ -13,6 +13,7 @@ public class Result
     public decimal CalculatedFeeRate { get; }
     public decimal AverageInputAnonset { get; }
     public decimal AverageOutputAnonset { get; }
+    public decimal AverageOutputAnonsetExcludingChange { get; }
     public int TaprootCount { get; }
     public int Bech32Count { get; }
 
@@ -28,6 +29,7 @@ public class Result
         decimal calculatedFeeRate,
         decimal averageInputAnonset,
         decimal averageOutputAnonset,
+        decimal averageOutputAnonsetExcludingChange,
         int taprootCount,
         int bech32Count
     )
@@ -43,6 +45,7 @@ public class Result
         CalculatedFeeRate = calculatedFeeRate;
         AverageInputAnonset = averageInputAnonset;
         AverageOutputAnonset = averageOutputAnonset;
+        AverageOutputAnonsetExcludingChange = averageOutputAnonsetExcludingChange;
         TaprootCount = taprootCount;
         Bech32Count = bech32Count;
     }
